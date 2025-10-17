@@ -29,11 +29,12 @@ export async function POST(request: NextRequest) {
 
     // Validate and sanitize email
     const sanitizedEmail = sanitizeInput(email);
-    const validationResult = emailSchema.safeParse(sanitizedEmail);
-
-    if (!validationResult.success) {
+    
+    // Simple email validation using the pattern from emailSchema
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(sanitizedEmail)) {
       return NextResponse.json(
-        { error: validationResult.error.errors[0].message },
+        { error: 'Please enter a valid email address' },
         { status: 400 }
       );
     }
