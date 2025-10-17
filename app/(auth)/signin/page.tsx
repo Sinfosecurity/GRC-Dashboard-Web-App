@@ -36,7 +36,9 @@ export default function SignInPage() {
         throw new Error(data.error || 'Sign-in failed');
       }
 
-      // Success - redirect to dashboard
+      // Success - set localStorage as fallback and redirect to dashboard
+      localStorage.setItem("authed", "1");
+      localStorage.setItem("user", JSON.stringify(data.user));
       r.push("/dashboard");
     } catch (error) {
       console.error('Sign-in error:', error);
@@ -137,6 +139,41 @@ export default function SignInPage() {
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                       MFA Ready
+                    </div>
+                  </div>
+
+                  {/* Demo Credentials */}
+                  <div className="bg-blue-50 rounded-xl p-4 space-y-3">
+                    <div className="text-xs font-medium text-blue-700 mb-2">Demo Credentials</div>
+                    <div className="space-y-2 text-xs">
+                      <div 
+                        className="flex items-center justify-between cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                        onClick={() => setEmail('admin@grcatlas.com')}
+                      >
+                        <span className="text-blue-600 font-medium">Admin:</span>
+                        <span className="text-blue-500 font-mono">admin@grcatlas.com</span>
+                      </div>
+                      <div 
+                        className="flex items-center justify-between cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                        onClick={() => setEmail('user@grcatlas.com')}
+                      >
+                        <span className="text-blue-600 font-medium">User:</span>
+                        <span className="text-blue-500 font-mono">user@grcatlas.com</span>
+                      </div>
+                      <div 
+                        className="flex items-center justify-between cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                        onClick={() => setEmail('viewer@grcatlas.com')}
+                      >
+                        <span className="text-blue-600 font-medium">Viewer:</span>
+                        <span className="text-blue-500 font-mono">viewer@grcatlas.com</span>
+                      </div>
+                      <div 
+                        className="flex items-center justify-between cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                        onClick={() => setEmail('auditor@grcatlas.com')}
+                      >
+                        <span className="text-blue-600 font-medium">Auditor:</span>
+                        <span className="text-blue-500 font-mono">auditor@grcatlas.com</span>
+                      </div>
                     </div>
                   </div>
 

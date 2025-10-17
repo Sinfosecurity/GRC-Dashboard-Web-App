@@ -1,15 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { clearAuthCookie } from '@/lib/auth';
+import { NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
+    // Create response
     const response = NextResponse.json({
       success: true,
       message: 'Signed out successfully'
     });
 
     // Clear auth cookie
-    clearAuthCookie(response);
+    response.cookies.set('auth-token', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/'
+    });
 
     return response;
 

@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSession, setAuthCookie } from '@/lib/auth';
 import { emailSchema, sanitizeInput, rateLimit } from '@/lib/validation';
+import { findDemoUser, isDemoUser } from '@/lib/demo-users';
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
+    // Rate limiting (more lenient for demo)
     const clientIP = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
-    if (!rateLimit(clientIP, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
+    if (!rateLimit(clientIP, 50, 15 * 60 * 1000)) { // 50 attempts per 15 minutes
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
         { status: 429 }
@@ -34,8 +35,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if it's a demo user
+    const demoUser = findDemoUser(sanitizedEmail);
+    
     // Create user (in production, fetch from database)
-    const user = {
+    const user = demoUser ? {
+      id: demoUser.id,
+      email: demoUser.email,
+      name: demoUser.name,
+      role: demoUser.role,
+      department: demoUser.department,
+      avatar: demoUser.avatar,
+      lastLogin: new Date()
+    } : {
       id: `user_${Date.now()}`,
       email: sanitizedEmail,
       name: sanitizedEmail.split('@')[0],
