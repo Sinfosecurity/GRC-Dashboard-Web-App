@@ -3,6 +3,9 @@ import { createSession, setAuthCookie } from '@/lib/auth';
 import { emailSchema, sanitizeInput, rateLimit } from '@/lib/validation';
 import { findDemoUser, isDemoUser } from '@/lib/demo-users';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting (more lenient for demo)

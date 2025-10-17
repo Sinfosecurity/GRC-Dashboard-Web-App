@@ -294,6 +294,14 @@ export function sanitizeInput(input: any): any {
   return input;
 }
 
+// Email schema for form validation
+export const emailSchema = {
+  required: true,
+  type: 'email' as const,
+  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  message: 'Please enter a valid email address'
+};
+
 // Export validation utilities
 export const ValidationUtils = {
   isValidEmail,
