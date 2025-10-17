@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card as UICard, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   Shield, 
@@ -22,6 +22,13 @@ import {
   Award,
   Play
 } from "lucide-react";
+
+// Custom Card component for dark theme
+const Card = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={`bg-gray-800/50 border border-gray-700 rounded-lg p-6 ${className || ''}`} {...props}>
+    {children}
+  </div>
+);
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -269,7 +276,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product, index) => (
-              <Card key={index} className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-colors">
+              <Card key={index} className="hover:bg-gray-800/70 transition-colors">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 bg-blue-500/20 rounded-lg">
@@ -368,7 +375,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-gray-800/50 border-gray-700">
+              <Card key={index}>
                 <CardContent className="p-8">
                   <p className="text-gray-300 mb-6 leading-relaxed">
                     "{testimonial.quote}"
