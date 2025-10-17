@@ -32,6 +32,21 @@ const Card = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivEle
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
+
+  // Close dropdowns when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openDropdown && !(event.target as Element).closest('.relative')) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDropdown]);
 
   const products = [
     {
@@ -117,80 +132,139 @@ export default function LandingPage() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors">
+              <div className="relative">
+                <button 
+                  onClick={() => setOpenDropdown(openDropdown === 'products' ? null : 'products')}
+                  className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors"
+                >
                   <span>Products</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${openDropdown === 'products' ? 'rotate-180' : ''}`} />
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="p-4 space-y-3">
-                    <a href="#vendor-risk" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Vendor Risk Management</div>
-                      <div className="text-sm text-gray-400">Control third-party vendor risk</div>
-                    </a>
-                    <a href="#breach-risk" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Breach Risk Monitoring</div>
-                      <div className="text-sm text-gray-400">Monitor data breaches</div>
-                    </a>
-                    <a href="#user-risk" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">User Risk Management</div>
-                      <div className="text-sm text-gray-400">Secure your workforce</div>
-                    </a>
-                    <a href="#trust-exchange" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Trust Exchange</div>
-                      <div className="text-sm text-gray-400">Questionnaire automation</div>
-                    </a>
+                {openDropdown === 'products' && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl z-50">
+                    <div className="p-4 space-y-3">
+                      <a 
+                        href="#products" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Vendor Risk Management</div>
+                        <div className="text-sm text-gray-400">Control third-party vendor risk</div>
+                      </a>
+                      <a 
+                        href="#products" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Breach Risk Monitoring</div>
+                        <div className="text-sm text-gray-400">Monitor data breaches</div>
+                      </a>
+                      <a 
+                        href="#products" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">User Risk Management</div>
+                        <div className="text-sm text-gray-400">Secure your workforce</div>
+                      </a>
+                      <a 
+                        href="#products" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Trust Exchange</div>
+                        <div className="text-sm text-gray-400">Questionnaire automation</div>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors">
+              <div className="relative">
+                <button 
+                  onClick={() => setOpenDropdown(openDropdown === 'solutions' ? null : 'solutions')}
+                  className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors"
+                >
                   <span>Solutions</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${openDropdown === 'solutions' ? 'rotate-180' : ''}`} />
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="p-4 space-y-3">
-                    <a href="#financial-services" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Financial Services</div>
-                      <div className="text-sm text-gray-400">Secure customer data</div>
-                    </a>
-                    <a href="#technology" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Technology</div>
-                      <div className="text-sm text-gray-400">Scale securely</div>
-                    </a>
-                    <a href="#healthcare" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Healthcare</div>
-                      <div className="text-sm text-gray-400">Compliance & security</div>
-                    </a>
+                {openDropdown === 'solutions' && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl z-50">
+                    <div className="p-4 space-y-3">
+                      <a 
+                        href="#solutions" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Financial Services</div>
+                        <div className="text-sm text-gray-400">Secure customer data</div>
+                      </a>
+                      <a 
+                        href="#solutions" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Technology</div>
+                        <div className="text-sm text-gray-400">Scale securely</div>
+                      </a>
+                      <a 
+                        href="#solutions" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Healthcare</div>
+                        <div className="text-sm text-gray-400">Compliance & security</div>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <a href="/pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors">
+              <div className="relative">
+                <button 
+                  onClick={() => setOpenDropdown(openDropdown === 'resources' ? null : 'resources')}
+                  className="flex items-center space-x-1 text-gray-300 hover:text-white transition-colors"
+                >
                   <span>Resources</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${openDropdown === 'resources' ? 'rotate-180' : ''}`} />
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="p-4 space-y-3">
-                    <a href="#blog" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Blog</div>
-                      <div className="text-sm text-gray-400">Latest cybersecurity insights</div>
-                    </a>
-                    <a href="#breaches" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Breaches</div>
-                      <div className="text-sm text-gray-400">Security research & news</div>
-                    </a>
-                    <a href="#resources" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">eBooks & Reports</div>
-                      <div className="text-sm text-gray-400">Insights and guides</div>
-                    </a>
-                    <a href="#events" className="block text-white hover:text-blue-400 transition-colors">
-                      <div className="font-semibold">Events</div>
-                      <div className="text-sm text-gray-400">Webinars & conferences</div>
-                    </a>
+                {openDropdown === 'resources' && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl z-50">
+                    <div className="p-4 space-y-3">
+                      <a 
+                        href="#resources" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Blog</div>
+                        <div className="text-sm text-gray-400">Latest cybersecurity insights</div>
+                      </a>
+                      <a 
+                        href="#resources" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Breaches</div>
+                        <div className="text-sm text-gray-400">Security research & news</div>
+                      </a>
+                      <a 
+                        href="#resources" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">eBooks & Reports</div>
+                        <div className="text-sm text-gray-400">Insights and guides</div>
+                      </a>
+                      <a 
+                        href="#resources" 
+                        className="block text-white hover:text-blue-400 transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="font-semibold">Events</div>
+                        <div className="text-sm text-gray-400">Webinars & conferences</div>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <a href="#customers" className="text-gray-300 hover:text-white transition-colors">Customers</a>
               <a href="#tour" className="text-gray-300 hover:text-white transition-colors">Tour</a>
