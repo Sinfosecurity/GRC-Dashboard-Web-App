@@ -1,2 +1,2 @@
 import { redirect } from "next/navigation";
-export default function Home() { redirect("/signin"); return null; }
+export default function Home() { redirect("/landing"); return null; }

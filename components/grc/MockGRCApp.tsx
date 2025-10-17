@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   ShieldCheck, FileText, Layers, FolderOpen, Building2, FileSignature, Settings, Plus,
   Search, Filter, ChevronDown, AlertTriangle, CheckCircle2, Bell, Network, Gauge,
-  ClipboardCheck, Map, Globe, Share2, GitMerge, ListChecks, Clock, LogOut, User
+  ClipboardCheck, Map, Globe, Share2, GitMerge, ListChecks, Clock, LogOut, User, DollarSign, Phone
 } from "lucide-react";
 import {
   ResponsiveContainer, ScatterChart, XAxis, YAxis, CartesianGrid, Tooltip as ReTooltip,
@@ -48,6 +48,15 @@ export default function MockGRCApp() {
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showAddVendorModal, setShowAddVendorModal] = React.useState(false);
   const [showQuestionnaireModal, setShowQuestionnaireModal] = React.useState(false);
+
+  // Handle URL parameters for tab navigation
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab && ['dashboard', 'vendors', 'risks', 'controls', 'evidence', 'audits', 'policies', 'settings', 'pricing', 'contact', 'reports'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, []);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = React.useState('');
   const risks = useRisks();
   const vendors = useVendors();
@@ -61,12 +70,12 @@ export default function MockGRCApp() {
     // Clear any auth cookies by making a request to signout endpoint
     fetch('/api/auth/signout', { method: 'POST' })
       .then(() => {
-        // Redirect to sign-in page
-        window.location.href = '/signin';
+        // Redirect to landing page
+        window.location.href = '/landing';
       })
       .catch(() => {
-        // Even if the API call fails, redirect to sign-in
-        window.location.href = '/signin';
+        // Even if the API call fails, redirect to landing page
+        window.location.href = '/landing';
       });
   };
 
@@ -132,6 +141,24 @@ export default function MockGRCApp() {
                 label="Settings" 
                 active={activeTab === 'settings'}
                 onClick={() => setActiveTab('settings')}
+              />
+              <NavItem 
+                icon={<DollarSign className="h-4 w-4" />} 
+                label="Pricing" 
+                active={activeTab === 'pricing'}
+                onClick={() => window.location.href = '/pricing'}
+              />
+              <NavItem 
+                icon={<Phone className="h-4 w-4" />} 
+                label="Contact" 
+                active={activeTab === 'contact'}
+                onClick={() => window.location.href = '/contact'}
+              />
+              <NavItem 
+                icon={<Globe className="h-4 w-4" />} 
+                label="Home" 
+                active={activeTab === 'home'}
+                onClick={() => window.location.href = '/landing'}
               />
             </ul>
           </nav>

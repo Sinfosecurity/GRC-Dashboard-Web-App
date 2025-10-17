@@ -72,8 +72,20 @@ export default function SignInPage() {
                 </div>
               </div>
               
-              <div className="text-3xl font-semibold text-slate-800 mb-2">Sign in</div>
-              <div className="text-sm text-slate-600">Enter your email to access your dashboard</div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <div className="text-3xl font-semibold text-slate-800">Sign in</div>
+                  <div className="text-sm text-slate-600">Enter your email to access your dashboard</div>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => window.open('/pricing', '_blank')}
+                  className="text-slate-600 hover:text-slate-800"
+                >
+                  View Pricing
+                </Button>
+              </div>
             </CardHeader>
             
             <CardContent className="px-8 pb-8">
